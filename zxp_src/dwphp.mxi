@@ -1,0 +1,92 @@
+﻿<macromedia-extension name="dwphp" version="0.9.8" type="Command" requires-restart="ture">
+
+	<!-- Describe the author -->
+	
+	<author name="du yu" />
+
+	<!-- List the required/compatible products -->
+	
+	<products>
+		<product name="Dreamweaver" version="15" primary="true" /> 
+	</products> 
+
+	<!-- Describe the extension -->
+	
+	<description>
+	<![CDATA[
+	Including a set of tools to make dreamweaver more friendly with php user.
+	For more Information, please visit http://github.com/iamduyu/dwphp
+	]]>
+	</description>
+
+	<!-- Describe where the extension shows in the UI of the product -->
+
+	<ui-access>
+	<![CDATA[
+	To use "Go to defination", you should click the site menu and let ctags parse the whole
+	site, just once. Then every time you save php files, this extension will automaticlly
+	parse the files you have modified, and renew the ctags file.
+	]]>
+	</ui-access>
+
+	<!-- Describe the files that comprise the extension -->
+	
+	<files>
+		<file name="nav-history.png" destination="$dreamweaver/configuration/Toolbars/" />
+		<file name="definition.htm" destination="$dreamweaver/configuration/menus/dwoop/" />
+		<file name="parseSite.htm" destination="$dreamweaver/configuration/menus/dwoop/" />
+		<file name="navHistory.htm" destination="$dreamweaver/configuration/menus/dwoop/" />
+		<file name="moveCaret.htm" destination="$dreamweaver/configuration/menus/dwoop/" />
+		<file name="dwoop_beforeSave.htm" destination="$dreamweaver/configuration/commands/" />
+		<file name="dwoop_afterSave.htm" destination="$dreamweaver/configuration/commands/" />
+		<file name="selDest.htm" destination="$dreamweaver/configuration/commands/" />
+		<file name="dwoop.dll" destination="$dreamweaver/configuration/JSExtensions/" />
+		<file name="ctags.exe" destination="$dreamweaver/configuration/JSExtensions/" />
+	</files>
+
+	<!-- Describe the changes to the configuration -->
+	
+	<configuration-changes>
+		
+		<!-- Add an entry to the commands menu -->
+
+		<menu-insert insertAfter="DWMenu_Site_DefineSites" skipSeparator="true">
+			<separator/>
+			<menuitem name="Create Tags File..." file="Menus/dwoop/parsesite.htm" domRequired="FALSE" id="dwoop_parse_site" />
+			<separator/>
+		</menu-insert>
+		
+		<menu-insert insertBefore="DWMenu_Edit_GoToLine" skipSeparator="true">
+			<separator/>
+			<menuitem name="Move caret" file="Menus/dwoop/moveCaret.htm" domRequired="FALSE" id="dwoop_move_caret" />
+			<separator/>
+		</menu-insert>
+		
+		<menu-insert insertAfter="DWContext_HTML_CodeNav" skipSeparator="true">
+			<menuitem name="Go To Definition..." file="Menus/dwoop/definition.htm" domRequired="FALSE" id="dwoop_go_to_definition" />
+		</menu-insert>
+		
+		<menu-insert insertAfter="DWRepositorySiteFilesContext" skipSeparator="true">
+			<menubar id="DWOOP_nav_history_menubar">
+			</menubar>
+		</menu-insert>
+		
+		<menu-insert appendTo="DWOOP_nav_history_menubar">
+			<menu name="dwoop nav menu" id="DWOOP_nav_history_menu">
+			</menu>			
+		</menu-insert>
+		
+		<menu-insert appendTo="DWOOP_nav_history_menu">
+			<menuitem name="dwoop nav menuitem" file="Menus/dwoop/navHistory.htm" id="DWOOP_nav_history_menuitem" dynamic="true">
+			</menuitem>
+		</menu-insert>
+		
+		<toolbar-changes file="toolbars.xml"> 
+			<toolbar-item-remove id="DW_CodeNavigator" />
+			<toolbar-item-insert insertAfter="DW_OpenDocuments" toolbar="DW_CodeView_Toolbar"> 
+				<menubutton tooltip="jump to history position" enabled="dw.getDocumentDOM() != null" id="DWOOP_nav_history" image="Toolbars/nav-history.png" menuID="DWOOP_nav_history_menubar" update="onViewChange" />
+			</toolbar-item-insert> 
+		</toolbar-changes> 
+	
+	</configuration-changes>
+</macromedia-extension>
